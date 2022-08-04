@@ -49,9 +49,18 @@ module.exports = function build() {
   // build dll.js and config tw to load it
   // original filename contains invalid char, will cause static server unable to load it
   const htmlContent = fs.readFileSync(htmlMinifyPath, 'utf-8');
-  const htmlContentWithCorrectJsPath = htmlContent.replaceAll('%24%3A%2Fcore%2Ftemplates%2Ftiddlywiki5.js', 'tiddlywiki5.js');
-  fs.writeFileSync(htmlOutputPath, htmlContentWithCorrectJsPath);
-  execAndLog(`mv ${repoFolder}/output/tiddlywiki5.js ${folderToServe}/tiddlywiki5.js`, { cwd: repoFolder });
+  // const htmlContentWithCorrectJsPath = htmlContent.replaceAll('%24%3A%2Fcore%2Ftemplates%2Ftiddlywiki5.js', 'tiddlywiki5.js');
+  const htmlContentWithCorrectJsPath = replaceAll(htmlContent, '%24%3A%2Fcore%2Ftemplates%2Ftiddlywiki5.js', 'tiddlywiki5.js');
+  console.log(htmlContentWithCorrectJsPath)
+  // fs.writeFileSync(htmlOutputPath, htmlContentWithCorrectJsPath);
+  // execAndLog(`mv ${repoFolder}/output/tiddlywiki5.js ${folderToServe}/tiddlywiki5.js`, { cwd: repoFolder });
   // npm run build:precache
   execAndLog(`workbox injectManifest workbox-config.js`, { cwd: repoFolder });
 };
+
+function escapeRegExp(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+}
+function replaceAll(str, match, replacement){
+   return str.replace(new RegExp(escapeRegExp(match), 'g'), ()=>replacement);
+}
