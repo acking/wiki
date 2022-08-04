@@ -52,8 +52,8 @@ module.exports = function build() {
   // const htmlContentWithCorrectJsPath = htmlContent.replaceAll('%24%3A%2Fcore%2Ftemplates%2Ftiddlywiki5.js', 'tiddlywiki5.js');
   const htmlContentWithCorrectJsPath = replaceAll(htmlContent, '%24%3A%2Fcore%2Ftemplates%2Ftiddlywiki5.js', 'tiddlywiki5.js');
   console.log(htmlContentWithCorrectJsPath)
-  // fs.writeFileSync(htmlOutputPath, htmlContentWithCorrectJsPath);
-  // execAndLog(`mv ${repoFolder}/output/tiddlywiki5.js ${folderToServe}/tiddlywiki5.js`, { cwd: repoFolder });
+  fs.writeFileSync(htmlOutputPath, htmlContentWithCorrectJsPath);
+  execAndLog(`mv ${repoFolder}/output/tiddlywiki5.js ${folderToServe}/tiddlywiki5.js`, { cwd: repoFolder });
   // npm run build:precache
   execAndLog(`workbox injectManifest workbox-config.js`, { cwd: repoFolder });
 };
